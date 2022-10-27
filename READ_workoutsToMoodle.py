@@ -9,7 +9,7 @@ import pandas as pd
 import os
 
 #%% Settings
-folder = 'C:/Users/h17163/Python Scripts/Workouts/Data'
+folder = './WorkoutData_2017to2020'
 file_list = os.listdir(folder)
 
 #%% Read example file
@@ -25,6 +25,7 @@ def read_file_to_df(filename):
     data = pd.read_json(filename, typ='series')
     value = []
     key = []
+    count = 0
     for j in list(range(0, data.size)):
         if list(data[j].keys())[0] != 'points':
             key.append(list(data[j].keys())[0])
@@ -33,6 +34,8 @@ def read_file_to_df(filename):
        
 
     if list(data[j].keys())[0] == 'points':
+        
+        count = len(data[j]['points'])
         try:
             start = list(list(list(data[data.size-1].items()))[0][1][0][0].items())[0][1][0]
             dictionary['start_lat'] = list(start[0].items())[0][1]
@@ -45,19 +48,33 @@ def read_file_to_df(filename):
         
     df = pd.DataFrame(dictionary, index = [0])
 
-    return df
+    return df, count
 
 #%% Read all files in a loop
 
 # Create Empty DataFrame
 df_res = pd.DataFrame()
 
+count = list()
 # Read files to a common dataframe
 for filename in file_list:
     print('\n'+filename)
-    df_process = read_file_to_df(folder +'/'+ filename)
+    df_process, pointCount = read_file_to_df(folder +'/'+ filename)
     df_res = pd.concat([df_res, df_process], 0)
-
+    count.append(pointCount)
+    
 df_res.reset_index(drop=True, inplace = True)
+
+#%%
+# FROM HERE
+# Solution 1: Let use a compact df with only variables having no NaN
+
+cols = df_res.columns
+nCol = len(cols)
+nNaN = [0] * nCol
+
+for i in range(nCol):
+    nNaN[i] = df_res[cols[i]].isnull().sum()
+
 
 
