@@ -13,62 +13,72 @@ from math import sqrt
 
 
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsRegressor
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
-#%% Settings
-folder = 'C:\\Users\\darvi\\Desktop\\Big Data in Business and Industry\\PRACTICAL ASSIGNMENT-20221026\\WorkoutData_2017to2020'
-file_list = os.listdir(folder)  
+# #%% Settings
+# folder = 'C:\\Users\\darvi\\Desktop\\Big Data in Business and Industry\\PRACTICAL ASSIGNMENT-20221026\\WorkoutData_2017to2020'
+# file_list = os.listdir(folder)  
 
-#%% Read example file
-mov_ex0 = pd.read_json(folder+'/'+file_list[0], typ='series')
+# #%% Read example file
+# mov_ex0 = pd.read_json(folder+'/'+file_list[0], typ='series')
 
-# Inspect example file
-print(mov_ex0[14]['points'])
+# # Inspect example file
+# print(mov_ex0[14]['points'])
 
-#%% Function definitions (HINT: you can move functions in a separate file to 
-# keep the length of the analysis script reasonable...)
+# #%% Function definitions (HINT: you can move functions in a separate file to 
+# # keep the length of the analysis script reasonable...)
 
-def read_file_to_df(filename):
-    data = pd.read_json(filename, typ='series')
-    value = []
-    key = []
-    for j in list(range(0, data.size)):
-        if list(data[j].keys())[0] != 'points':
-            key.append(list(data[j].keys())[0])
-            value.append(list(data[j].items())[0][1])
-            dictionary = dict(zip(key, value))
+# def read_file_to_df(filename):
+#     data = pd.read_json(filename, typ='series')
+#     value = []
+#     key = []
+#     for j in list(range(0, data.size)):
+#         if list(data[j].keys())[0] != 'points':
+#             key.append(list(data[j].keys())[0])
+#             value.append(list(data[j].items())[0][1])
+#             dictionary = dict(zip(key, value))
        
 
-    if list(data[j].keys())[0] == 'points':
-        try:
-            start = list(list(list(data[data.size-1].items()))[0][1][0][0].items())[0][1][0]
-            dictionary['start_lat'] = list(start[0].items())[0][1]
-            dictionary['start_long'] = list(start[1].items())[0][1]
-            dictionary['end_lat'] = list(start[0].items())[0][1]
-            dictionary['end_long'] = list(start[1].items())[0][1]
-        except:
-            print('No detailed data recorded')
+#     if list(data[j].keys())[0] == 'points':
+#         try:
+#             start = list(list(list(data[data.size-1].items()))[0][1][0][0].items())[0][1][0]
+#             dictionary['start_lat'] = list(start[0].items())[0][1]
+#             dictionary['start_long'] = list(start[1].items())[0][1]
+#             dictionary['end_lat'] = list(start[0].items())[0][1]
+#             dictionary['end_long'] = list(start[1].items())[0][1]
+#         except:
+#             print('No detailed data recorded')
             
         
-    df = pd.DataFrame(dictionary, index = [0])
+#     df = pd.DataFrame(dictionary, index = [0])
 
-    return df
+#     return df
 
-#%% Read all files in a loop
+# #%% Read all files in a loop
 
-# Create Empty DataFrame
-df_res = pd.DataFrame()
+# # Create Empty DataFrame
+# df_res = pd.DataFrame()
 
-# Read files to a common dataframe
-for filename in file_list:
-    print('\n'+filename)
-    df_process = read_file_to_df(folder +'/'+ filename)
-    df_res = pd.concat([df_res, df_process], 0)
+# # Read files to a common dataframe
+# for filename in file_list:
+#     print('\n'+filename)
+#     df_process = read_file_to_df(folder +'/'+ filename)
+#     df_res = pd.concat([df_res, df_process], 0)
 
-df_res.reset_index(drop=True, inplace = True)
+# df_res.reset_index(drop=True, inplace = True)
 
-#%% Checking Nan Values
+# df_res_csv = df_res.to_csv('df_res.csv', index = False)
+
+
+
+
+#%% START HERE
+df_res = pd.read_csv('./df_res.csv')
+#%% DATA EXPLORATION
+
+#%% Observe the number of NaN values in df_res
+# Checking Nan Values
 
 NaN_check = {}
 for i in df_res.columns:
@@ -77,15 +87,6 @@ for i in df_res.columns:
         NaN_check[i] = df_res[i].isnull().sum()
     else:
         NaN_check[i] = 0
-
-
-
-#%% START HERE
-
-#%% DATA EXPLORATION
-
-#%% Observe the number of NaN values in df_res
-
 # no operations on var with many NaN, fill 1 existing NaN in var calories
 # Fill 1 existing NaN in var calories
 # observe which sport corresponds the NaN
@@ -137,8 +138,9 @@ DF1_sport = DF1["sport"]
 nObs = sport_dummy.shape[0]
 # DF1_class = sport_dummy.iloc[7:]
 DF1_class = DF1_sport.iloc[7:]
+DF1_class = DF1_class.apply(lambda x: str(x))
 DF1_class = DF1_class.to_numpy()
-
+DF1_class = DF1_class.astype(np.str)
 
 
 del DF1["created_date"]
@@ -171,11 +173,22 @@ DF1_data = DF1_data.to_numpy()
 
 #%% Construct model for next SPORT prediction (KNN, CLUSTERING K-MEANS, GAUSSIAN MODELS) using DF1_1
 X_train, X_test, y_train, y_test = train_test_split(DF1_data, DF1_class, random_state=42, test_size=0.3)
-knn_model = KNeighborsRegressor(n_neighbors=5)
-knn_model.fit(X_train, y_train)
-y_pred_5 = knn_model.predict(X_test)
-print("Accuracy with k=5", accuracy_score(y_test, y_pred_5)*100)
-print("Hello")
+Acc_lst = {}
+for i in range(3,30,2):
+    knn_model = KNeighborsClassifier(n_neighbors=i)
+    knn_model.fit(X_train, y_train)
+    y_pred_5 = knn_model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred_5)*100
+    Acc_lst[i] = acc
+
+best_acc = max(Acc_lst)
+
+s1_sport_model = KNeighborsClassifier(n_neighbors=11)
+s1_sport_model.fit(X_train, y_train)
+y_pred_11 = s1_sport_model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred_11)*100
+
+print(f"Accuracy with k=11 is {accuracy}")
 
 
 # Construct model for next TIME prediction (LINEAR REGRESSION) using DF1_1
