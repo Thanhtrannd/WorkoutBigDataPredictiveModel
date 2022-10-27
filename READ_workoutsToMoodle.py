@@ -25,22 +25,13 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.linear_model import Ridge
 from sklearn import linear_model
 
-# #%% Settings
-# folder = 'WorkoutData_2017to2020'
-# file_list = os.listdir(folder)  
+df_res = pd.read_csv("data/df_res_filled.csv")
 
-# #%% Read example file
-# mov_ex0 = pd.read_json(folder+'/'+file_list[0], typ='series')
-
-# # Inspect example file
-# print(mov_ex0[14]['points'])
-
-# #%% Function definitions (HINT: you can move functions in a separate file to 
-# # keep the length of the analysis script reasonable...)
-
+#df_res.to_csv("data/df_res_sorted.csv", index = False)
+# # Define helper function for data loading and locating to one data frame
 # def read_file_to_df(filename):
 #     """ Created by h17163,
-#         start and end latitude and longitude Modified by Thanh Tran
+#         start and end latitude and longitude loading modified by Thanh Tran
 #     """
 #     data = pd.read_json(filename, typ='series')
 #     value = []
@@ -77,23 +68,30 @@ from sklearn import linear_model
 
 #     return df
 
-# #%% Read all files in a loop
+# # Load JSON data files from data folder @author: h17163
+# folder = 'WorkoutData_2017to2020'
+# file_list = os.listdir(folder)
 
-# # Create Empty DataFrame
+# # Create Empty DataFrame @author: h17163
 # df_res = pd.DataFrame()
 
-# # Read files to a common dataframe
+# # Read files to a common dataframe @author: h17163
 # for filename in file_list:
-#     print('\n'+filename)
-#     df_process = read_file_to_df(folder +'/'+ filename)
+#     print('\n'+ filename)
+#     df_process = read_file_to_df(folder + '/' + filename)
 #     df_res = pd.concat([df_res, df_process], 0)
 
 # df_res.reset_index(drop=True, inplace = True)
 
-# df_res_csv = df_res.to_csv('data/df_res.csv', index = False)
+# # Save loaded data frame into "./data/df_res.csv"
+# df_res.to_csv('data/df_res.csv', index = False)
 
+# Read in data from the csv file and store it in the data matrix df_rex.
+df_res = pd.read_csv("./data/df_res.csv")
 
-
+# Display first 5 rows
+print("First five datapoints:")
+display(df_res.head(5))
 
 #%% START HERE
 df_res = pd.read_csv('data/df_res.csv')
