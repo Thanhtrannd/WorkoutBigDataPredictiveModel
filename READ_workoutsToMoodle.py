@@ -87,14 +87,14 @@ df_res = pd.read_csv("data/df_res_filled.csv")
 # df_res.to_csv('data/df_res.csv', index = False)
 
 # Read in data from the csv file and store it in the data matrix df_rex.
-df_res = pd.read_csv("./data/df_res.csv")
+#df_res = pd.read_csv("./data/df_res.csv")
 
 # Display first 5 rows
 print("First five datapoints:")
 display(df_res.head(5))
 
 #%% START HERE
-df_res = pd.read_csv('data/df_res.csv')
+#df_res = pd.read_csv('data/df_res.csv')
 #%% DATA EXPLORATION
 
 #%% Observe the number of NaN values in df_res
