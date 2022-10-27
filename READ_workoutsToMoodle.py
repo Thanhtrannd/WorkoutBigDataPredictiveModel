@@ -25,8 +25,8 @@ from sklearn.metrics import mean_absolute_error
 from sklearn.linear_model import Ridge
 from sklearn import linear_model
 
-#%% Settings
-# folder = 'C:\\Users\\darvi\\Desktop\\Big Data in Business and Industry\\PRACTICAL ASSIGNMENT-20221026\\WorkoutData_2017to2020'
+# #%% Settings
+# folder = 'WorkoutData_2017to2020'
 # file_list = os.listdir(folder)  
 
 # #%% Read example file
@@ -39,6 +39,9 @@ from sklearn import linear_model
 # # keep the length of the analysis script reasonable...)
 
 # def read_file_to_df(filename):
+#     """ Created by h17163,
+#         start and end latitude and longitude Modified by Thanh Tran
+#     """
 #     data = pd.read_json(filename, typ='series')
 #     value = []
 #     key = []
@@ -51,11 +54,21 @@ from sklearn import linear_model
 
 #     if list(data[j].keys())[0] == 'points':
 #         try:
-#             start = list(list(list(data[data.size-1].items()))[0][1][0][0].items())[0][1][0]
-#             dictionary['start_lat'] = list(start[0].items())[0][1]
-#             dictionary['start_long'] = list(start[1].items())[0][1]
-#             dictionary['end_lat'] = list(start[0].items())[0][1]
-#             dictionary['end_long'] = list(start[1].items())[0][1]
+#             # start = list(list(list(data[data.size-1].items()))[0][1][0][0].items())[0][1][0]
+#             # dictionary['start_lat'] = list(start[0].items())[0][1]
+#             # dictionary['start_long'] = list(start[1].items())[0][1]
+#             # dictionary['end_lat'] = list(start[0].items())[0][1]
+#             # dictionary['end_long'] = list(start[1].items())[0][1]
+#             points = list(data[j].items())[0][1]
+#             start = points[0]
+#             end = points[-1]
+#             start_loc = start[0]['location']
+#             end_loc = end[0]['location']
+#             dictionary['start_lat'] = start_loc[0][0]['latitude']
+#             dictionary['start_long'] = start_loc[0][1]['longitude']
+#             dictionary['end_lat'] = end_loc[0][0]['latitude']
+#             dictionary['end_long'] = end_loc[0][1]['longitude']
+            
 #         except:
 #             print('No detailed data recorded')
             
@@ -77,13 +90,13 @@ from sklearn import linear_model
 
 # df_res.reset_index(drop=True, inplace = True)
 
-# df_res_csv = df_res.to_csv('df_res.csv', index = False)
+# df_res_csv = df_res.to_csv('data/df_res.csv', index = False)
 
 
 
 
 #%% START HERE
-df_res = pd.read_csv('./df_res.csv')
+df_res = pd.read_csv('data/df_res.csv')
 #%% DATA EXPLORATION
 
 #%% Observe the number of NaN values in df_res
