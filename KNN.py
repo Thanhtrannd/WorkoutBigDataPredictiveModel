@@ -31,13 +31,13 @@ df = pd.read_csv("data/df_res_filled.csv")
 #%% Checking Nan Values
 
 
-NaN_check = {}
-for i in df.columns:
-    check = df[i].isnull().values.any()
-    if check == True:
-        NaN_check[i] = df[i].isnull().sum()
-    else:
-        NaN_check[i] = 0
+# NaN_check = {}
+# for i in df.columns:
+#     check = df[i].isnull().values.any()
+#     if check == True:
+#         NaN_check[i] = df[i].isnull().sum()
+#     else:
+#         NaN_check[i] = 0
     
 #%% Converting datetime variable "created_date" to float
 
