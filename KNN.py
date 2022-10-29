@@ -7,11 +7,10 @@ Created on Fri Oct 28 11:31:07 2022
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 import statsmodels.api as sm
 from datetime import datetime
-
+import matplotlib.pyplot as plt
 
 
 from sklearn.model_selection import train_test_split
@@ -19,12 +18,12 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
 
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import mean_absolute_error
-from sklearn.linear_model import Ridge
-from sklearn import linear_model
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import ConfusionMatrixDisplay
+
+
+
 
 df = pd.read_csv("data/df_res_filled.csv")
 
@@ -162,8 +161,8 @@ Acc_lst = {}
 for i in range(3,20,2):
     knn_model = KNeighborsClassifier(n_neighbors=i)
     knn_model.fit(X_train, y_train)
-    y_pred_5 = knn_model.predict(X_test)
-    acc = accuracy_score(y_test, y_pred_5)*100
+    y_pred = knn_model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)*100
     Acc_lst[i] = acc
 
 best_acc = max(Acc_lst)
@@ -175,8 +174,24 @@ accuracy = accuracy_score(y_test, y_pred_11)*100
 
 print(f"Accuracy with k=9 is {accuracy}")
 
+confusion_matrix = confusion_matrix(y_test, y_pred_11)
+print(confusion_matrix)
+
+names = df1["sport"].unique()
+names = names.tolist()
+
+cm_display = ConfusionMatrixDisplay(confusion_matrix = confusion_matrix, display_labels = names)
+cm_display.plot()
+plt.show()
+
+print('\nAccuracy: {:.2f}\n'.format(accuracy_score(y_test, y_pred_11)))
+print('Precision: {:.2f}'.format(precision_score(y_test, y_pred_11,average='weighted')))
+print('Recall: {:.2f}'.format(recall_score(y_test, y_pred,average='weighted')))
+print('Micro F1-score: {:.2f}\n'.format(f1_score(y_test, y_pred,average='weighted')))
 
 
+
+    
 
 
 
