@@ -1,5 +1,0 @@
-1. Install anaconda package: $ pip install jupyter
-2. Run in Anaconda Prompt: $ conda install spyder-notebook -c spyder-ide
-
-1. work on teacher's tranform data
-2. create map of movement path based on longitude and latitude
