@@ -9,8 +9,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-import string
-import statsmodels.api as sm
 
 from datetime import datetime
 from sklearn.preprocessing import MinMaxScaler
