@@ -8,17 +8,12 @@ Created on Sun Oct 30 12:48:04 2022
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 # from calendar import day_name
 # from collections import deque
 
-from shapely.geometry import Point
-import geopandas as gpd
-from geopandas import GeoDataFrame
-from mpl_toolkits.basemap import Basemap
-
-
-import seaborn as sns
 
 #%% Load dataset
 df = pd.read_csv("data/df_res_full.csv")
@@ -44,7 +39,7 @@ df = pd.read_csv("data/df_res_full.csv")
 #         return my_autopct
     
 #     # Creating plot
-#     fig, ax = plt.subplots(figsize =(30, 24))
+#     fig, ax = plt.subplots(figsize =(36, 32))
 #     wedges, texts, autotexts = ax.pie(data,
 #                                       labels = label,
 #                                       startangle = 90,
@@ -58,13 +53,21 @@ df = pd.read_csv("data/df_res_full.csv")
 #               loc = "upper right")    
     
 #     plt.setp(autotexts, size = 16, weight ="bold")
-#     ax.set_title("Avg. Calories Burned (Kcal) w.r.t Sport", fontsize=26)
+#     ax.set_title("Avg. Calories Burned (Kcal) w.r.t Sport", fontsize=36)
     
 #     # Show plot
 #     plt.show()
 
 
 # pie_chart(Sport_calories_kcal["calories_kcal"], Sport_calories_kcal["sport"])
+
+# # Comment: This pie chart shows how much Calories(Kcal) on average are burned
+# # in each Sport.The marks are labeled by Sport and average of Calories Kcal.
+# # From the pie chart, we can observe that crpss country skiing and both kinds of
+# # running are the type of sport that burns the most calories on average and they
+# # contribute to more than a quarter of the chart. On the other hand, it is obvious
+# # that stretching, cross_training and roller_skating are the type of sport that 
+# # burns the least calories on average.
 
 #%% Bar plot - WeekDay vs Sport
 
@@ -107,6 +110,16 @@ df = pd.read_csv("data/df_res_full.csv")
 # plt.title("WeekDay vs Sport",fontsize = 30)
 # plt.show()
 
+# # Comment: This stacked bar plot shows the average duration for each weekday.
+# # Color shows details about Sport. From the chart, we can observe that the
+# # weekend(saturday and sunday) has the most activity with saturday being the most
+# # active day of the week and all other week days have on average similar divison 
+# # of sport activities with Friday being the least active among all comparatively.
+# # Generally, it seems that running, weight_training, badminton and walking
+# # are sports contributing most everyday activities including weekends. In contrast,
+# # there are several activies happing only on some specific days. For instance, 
+# # beach volley and fitness walking happen only on Sunday or stretch happens only 
+# # on Tuesday.
 #%% Bar plot - Seasons w.r.t sports
 
 # Sport_distance_km = df.groupby(["sport","start_time_season_cat"])["distance_km"].mean()
@@ -147,6 +160,13 @@ df = pd.read_csv("data/df_res_full.csv")
 #           loc = "upper right",fontsize = 15)
 # plt.title("Seasons w.r.t sports",fontsize = 30)
 # plt.show()
+
+# # # Comment: This stacked bar chart shows the activity for each season. Color shows 
+# # # details about Sport. From the figure, we can observe that the most sports season 
+# # # according to this data is Spring and the least active as can be expected is Winter.
+# # # Auumn and Summer are both similiar in activies. Suprisingly, Summer is less active than 
+# # # Autumn and cycling sport dominates during Spring with significantly high distribution 
+# # # among activities. Fitness walking activity particularly happens only during Spring.
 
 
 #%% Multivariate Plots
@@ -192,6 +212,14 @@ df = pd.read_csv("data/df_res_full.csv")
 #     ax.grid(True, axis='both')
 
 # cat.set(xlabel="Hourly", ylabel = "Avg of Duration")
+
+# # Comment: This plot shows us Average of duration for each time hour broken down
+# # by Sport. We can observe that walking is the only sport that has activity around 
+# # the clock. Cycling, swimming, walking, weight_training, and cross country skiing 
+# # all have similar pattern of activity from 8 AM to 6 PM approximately.
+# #  And stretching and beach volley is the sport activities  that are done for 
+# # the specific time and only in the afternoon. However, fitness walking happens
+# # before noon and last roughly 1.5 hours.
 
 
 # # Alternative Solution 
