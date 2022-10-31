@@ -56,7 +56,7 @@ df = pd.read_csv("data/df_res_full.csv")
 #     ax.set_title("Avg. Calories Burned (Kcal) w.r.t Sport", fontsize=36)
     
 #     # Show plot
-#     plt.show()
+#     plt.show() 
 
 
 # pie_chart(Sport_calories_kcal["calories_kcal"], Sport_calories_kcal["sport"])
